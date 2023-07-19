@@ -4,8 +4,8 @@ from sample.models import Task
 
 
 class UserSerializer(serializers.ModelSerializer):
-    task = serializers.PrimaryKeyRelatedField(many=True, querset=Task.objects.all())
+    tasks = serializers.PrimaryKeyRelatedField(many=True, queryset=Task.objects.all())
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'task']
+        fields = ['id', 'username','tasks']

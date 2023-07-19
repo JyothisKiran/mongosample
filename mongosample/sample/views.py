@@ -62,11 +62,19 @@ class TaskListView(APIView):
         return JsonResponse(serializer.data, safe=False)
     
     def post(self, request, format=None):
+        print("post")
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # def create(self, request,*validated_data, format=None):
+    #     pass
+    
+    def perform_create(self, serializer):
+        print("perform create")
+        serializer.save(user=self.request.user)
    
 
 class TaskOperationsView(APIView):
