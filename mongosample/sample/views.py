@@ -6,6 +6,7 @@ from .models import Task
 from .serializers import TaskSerializer
 from django.http import JsonResponse
 from rest_framework import status, generics, mixins
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # Create your views here.
 
@@ -57,7 +58,7 @@ def taskoperations(request, pk):
 class TaskListView(APIView):
 
     def get(self, request, format=None):
-        tasks = Task.objects.all()
+        tasks = Task.objects.filter(user=self.request.user)
         serializer = TaskSerializer(tasks, many=True)
         return JsonResponse(serializer.data, safe=False)
     
@@ -146,3 +147,5 @@ class GenericCreateView(generics.ListCreateAPIView):
 class GenericRetriveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
+
+
