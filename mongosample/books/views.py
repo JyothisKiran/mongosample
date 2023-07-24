@@ -62,3 +62,35 @@ class BooklistRO(viewsets.ReadOnlyModelViewSet):
         book = Book.objects.get(pk=pk)
         serializer = BookHLSerializer(book, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ListOfBooks(viewsets.GenericViewSet):
+    def list(self, request, format=None):
+        queryset = Book.objects.all()
+        serializer = BookHLSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def create(self, request, format=None):
+        serializer = BookHLSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def retrieve(self, request, pk, format=None):
+        book = Book.objects.get(pk=pk)
+        serializer = BookHLSerializer(book, context={'request': request})
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        book = Book.objects.get(pk=pk)
+        serializer = BookHLSerializer(book, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def destroy(self, request, pk, format=None):
+        book = Book.objects.get(pk=pk)
+        book.delete()
+        return Response(status=status.HTTP_404_NOT_FOUND)
