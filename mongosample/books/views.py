@@ -44,6 +44,7 @@ def bookoperations(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# Model Viewset
 class Booklist(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookHLSerializer
@@ -51,6 +52,7 @@ class Booklist(viewsets.ModelViewSet):
     # we can customise list, retrieve, put, destroy and create functions as per need
 
 
+# Read-only Model Viewset
 class BooklistRO(viewsets.ReadOnlyModelViewSet):
 
     # only list and retrieve methods are available
@@ -64,6 +66,7 @@ class BooklistRO(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# Generic Viewset
 class ListOfBooks(viewsets.GenericViewSet):
     def list(self, request, format=None):
         queryset = Book.objects.all()
@@ -94,3 +97,5 @@ class ListOfBooks(viewsets.GenericViewSet):
         book = Book.objects.get(pk=pk)
         book.delete()
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # djongo 1.3.1 (try later , for solving error in admin site)
