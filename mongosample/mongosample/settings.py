@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'djongo',
     'users',
     'blog',
+    'books',
 ]
 
 MIDDLEWARE = [
