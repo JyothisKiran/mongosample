@@ -21,9 +21,6 @@ class Author(models.Model):
 
 
 class Entry(models.Model):
-    # blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    blog_name = models.CharField(max_length=100)
-    blog_tagline = models.TextField()
     blog = models.EmbeddedField(model_container=Blog)
     headline = models.CharField(max_length=255)
 
@@ -32,7 +29,7 @@ class Entry(models.Model):
     def __str__(self):
         return self.headline
     
-    @property
-    def blog(self):
-        # Return the Blog object using the blog_name and blog_tagline fields
-        return Blog(name=self.blog_name, tagline=self.blog_tagline)
+    # @property
+    # def blog(self):
+    #     # Return the Blog object using the blog_name and blog_tagline fields
+    #     return Blog(name=self.blog_name, tagline=self.blog_tagline)
